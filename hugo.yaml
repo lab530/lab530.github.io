@@ -1,7 +1,7 @@
-baseurl: https://github.github.io/
+baseurl: https://lab530.github.io
 languageCode: en-us
 theme: hugo-theme-stack-master
-title: lab530's blog
+title: Lab530's Blog
 copyright: lab530
 
 # Theme i18n support
@@ -16,7 +16,7 @@ languages:
 
     zh-cn:
         languageName: 中文
-        title: lab530的博客
+        title: Lab530 的博客
         weight: 2
         params:
             description: 演示说明
@@ -30,10 +30,10 @@ services:
         id:
 
 pagination:
-    pagerSize: 3
+    pagerSize: 6
 
 permalinks:
-    post: /p/:slug/
+    post: /post/:slug/
     page: /:slug/
 
 params:
@@ -45,7 +45,7 @@ params:
     # e.g.: favicon placed in `static/favicon.ico` of your site folder, then set this field to `/favicon.ico` (`/` is necessary)
 
     footer:
-        since: 2024
+        since: 2022
         customText:
 
     dateFormat:
@@ -53,15 +53,15 @@ params:
         lastUpdated: Jan 02, 2006 15:04 MST
 
     sidebar:
-        emoji: 😶‍🌫️
-        subtitle: 欢迎来到我的博客！！！
+        emoji: 
+        subtitle: 欢迎来到 lab530 的博客！
         avatar:
             enabled: true
             local: true
             src: img/avatar.png
 
     article:
-        math: false
+        math: true
         toc: true
         readingTime: false
         license:
@@ -201,23 +201,23 @@ menu:
     main: []
 
     social:
-        - identifier: bilibili
-          name: bilibili
-          url: https://www.bilibili.com/
-          params: 
-              icon: brand-bilibili
+        # - identifier: bilibili
+        #   name: bilibili
+        #   url: https://www.bilibili.com/
+        #   params: 
+        #       icon: brand-bilibili
 
         - identifier: github
           name: GitHub
-          url: https://github.com/nianer0122/
+          url: https://github.com/lab530/
           params:
               icon: brand-github
 
-        - identifier: twitter
-          name: Twitter
-          url: https://twitter.com
-          params:
-              icon: brand-twitter
+        # - identifier: twitter
+        #   name: Twitter
+        #   url: https://twitter.com
+        #   params:
+        #       icon: brand-twitter
 
 related:
     includeNewer: true
