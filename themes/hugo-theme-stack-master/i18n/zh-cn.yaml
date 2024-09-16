@@ -48,6 +48,9 @@ widget:
     categoriesCloud:
         title:
             other: 分类
+    search:
+        title:
+            other: 搜索
 
 search:
     title:
