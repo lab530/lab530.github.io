@@ -6,9 +6,7 @@ weight=5
 categories = [
     "Test"
 ]
-tags = [
-    "emoji"
-]
+
 
 +++
 
@@ -19,6 +17,8 @@ tags = [
  <div style="text-align: center;">
      <strong>Yestercafe</strong>
  </div>
+
+
 **评价一份代码的好坏有许多标准，但无论如何都不仅是能够编译通过，本文旨在给出一份基础的代码风格推荐。**
 
 ## 目录
