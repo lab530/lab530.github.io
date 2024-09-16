@@ -1,59 +1,136 @@
 {{ define "main" }}
 <div class="gallery-photos page">
-  {{ range (sort (readDir "./static/photos") "Name" "desc")}}
-    {{ if ( .Name | findRE "\\.(gif|jpg|jpeg|tiff|png|bmp|webp|avif|jxl)") }}
-    <div class="gallery-photo">
-      <img class="photo-img" loading='lazy' decoding="async" src="/photos/{{ .Name }}" alt="{{ .Name }}" />
-      <span class="photo-title">{{ .Name | replaceRE "^[0-9 -]+(.*)[.].*" "$1"}}</span><span class="photo-time">{{ .Name | replaceRE "^([0-9-]+).*[.].*" "$1" }}</span>
-    </div>
-    {{ end }}
-  {{ end }}
+    <!-- 使用JavaScript从GitHub仓库获取图片列表 -->
+    <script>
+        // GitHub仓库信息
+        const owner = 'lab530';
+        const repo = 'pages-gallery-storage';
+        const path = '.'; // 图片所在的文件夹路径
+
+        // GitHub API URL
+        const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
+
+        // 获取图片列表
+        fetch(apiUrl)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok ' + response.statusText);
+                }
+                return response.json();
+            })
+            .then(data => {
+                // 过滤出图片文件
+                const images = data.filter(file => /\.(gif|jpg|jpeg|tiff|png|bmp|webp|avif|jxl)$/i.test(file.name));
+
+                // 生成图片HTML
+                const gallery = document.querySelector('.gallery-photos');
+                images.forEach(image => {
+                    const imgHtml = `
+            <div class="gallery-photo">
+              <img class="photo-img" loading='lazy' decoding="async" src="${image.download_url}" alt="${image.name}" />
+              <span class="photo-title">${image.name.replace(/^[0-9 -]+(.*)[.].*/, '$1')}</span>
+              <span class="photo-time">${image.name.replace(/^([0-9-]+).*[.].*/, '$1')}</span>
+            </div>
+          `;
+                    gallery.insertAdjacentHTML('beforeend', imgHtml);
+                });
+
+                // 显示所有图片
+                const galleryPhotos = document.querySelectorAll('.gallery-photo');
+                galleryPhotos.forEach(photo => {
+                    photo.style.visibility = 'visible';
+                });
+            })
+            .catch(error => console.error('Error fetching images:', error));
+    </script>
 </div>
 
 <style>
-.gallery-photos{width:100%;}
-.gallery-photo{width:24.9%;position: relative;visibility: hidden;overflow: hidden;}
-.gallery-photo.visible{visibility: visible;animation: fadeIn 2s;}
-.gallery-photo img{display: block;width:100%;border-radius:0;padding:4px;animation: fadeIn 1s;cursor: pointer;transition: all .4s ease-in-out;}
-.gallery-photo span.photo-title,.gallery-photo span.photo-time{background: rgba(0, 0, 0, 0.3);padding:0px 8px;font-size:0.9rem;color: #fff;display:none;animation: fadeIn 1s;}
-.gallery-photo span.photo-title{position:absolute;bottom:4px;left:4px;}
-.gallery-photo span.photo-time{position:absolute;top:4px;left:4px;font-size:0.8rem;}
-.gallery-photo:hover span.photo-title{display:block;}
-.gallery-photo:hover img{transform: scale(1.1);}
-@media screen and (max-width: 1280px) {
-	.gallery-photo{width:33.3%;}
-}
-@media screen and (max-width: 860px) {
-	.gallery-photo{width:49.9%;}
-}
-@media (max-width: 683px){
-	.photo-time{display: none;}
-}
-@keyframes fadeIn{
-	0% {opacity: 0;}
-   100% {opacity: 1;}
-}
+    .gallery-photos {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 16px;
+        /* 图片之间的间距 */
+        width: 100%;
+    }
+
+    .gallery-photo {
+        position: relative;
+        overflow: hidden;
+        transition: transform 0.3s ease;
+    }
+
+    .gallery-photo img {
+        width: 100%;
+        height: auto;
+        /* 根据宽度自动调整高度 */
+        border-radius: 20px;
+        cursor: pointer;
+        transition: all 0.4s ease-in-out;
+    }
+
+    .gallery-photo:hover img {
+        transform: scale(1.05);
+        /* 轻微缩放效果 */
+    }
+
+    .gallery-photo span.photo-title,
+    .gallery-photo span.photo-time {
+        background: rgba(0, 0, 0, 0.3);
+        padding: 0px 8px;
+        font-size: 0.9rem;
+        color: #fff;
+        display: none;
+    }
+
+    .gallery-photo span.photo-title {
+        position: absolute;
+        bottom: 4px;
+        left: 4px;
+        border-radius: 10px;
+        background-color: #a3dfff;
+        color: #000000;
+        font-size: 1.2rem;
+    }
+
+    .gallery-photo span.photo-time {
+        position: absolute;
+        top: 4px;
+        left: 4px;
+        font-size: 0.8rem;
+    }
+
+    .gallery-photo:hover span.photo-title {
+        display: block;
+    }
+
+    @media (max-width: 683px) {
+        .photo-time {
+            display: none;
+        }
+    }
 </style>
+
 <script src="https://immmmm.com/waterfall.min.js"></script>
 <script src="https://immmmm.com/imgStatus.min.js"></script>
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-    imgStatus.watch('.photo-img', function(imgs) {
-      if(imgs.isDone()){
-        waterfall('.gallery-photos');
-        let pagePhoto = document.querySelectorAll('.gallery-photo');
-        for(var i=0;i < pagePhoto.length;i++){pagePhoto[i].className += " visible"};
-      }
+    document.addEventListener('DOMContentLoaded', () => {
+        imgStatus.watch('.photo-img', function (imgs) {
+            if (imgs.isDone()) {
+                waterfall('.gallery-photos');
+                let pagePhoto = document.querySelectorAll('.gallery-photo');
+                for (var i = 0; i < pagePhoto.length; i++) { pagePhoto[i].className += " visible" };
+            }
+        });
+        window.addEventListener('resize', function () {
+            waterfall('.gallery-photos');
+        });
     });
-    window.addEventListener('resize', function () {
-      waterfall('.gallery-photos');
-    });
-});
 </script>
 <script src="https://immmmm.com/view-image.js"></script>
 <script src="https://immmmm.com/lately.min.js"></script>
 <script>
-  window.Lately && Lately.init({ target: '.photo-time'});
-  window.ViewImage && ViewImage.init('.gallery-photo img')
+    window.Lately && Lately.init({ target: '.photo-time' });
+    window.ViewImage && ViewImage.init('.gallery-photo img')
 </script>
 {{ end }}
