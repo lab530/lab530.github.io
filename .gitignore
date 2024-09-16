@@ -1,0 +1,11 @@
+# Auto-gened files
+public
+resources
+.hugo_build.lock
+
+# hugo execuables
+hugo.exe
+hugo
+
+# tmp files
+*~

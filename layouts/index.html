@@ -1,0 +1,27 @@
+{{ define "main" }}
+    {{ $pages := where .Site.RegularPages "Type" "in" .Site.Params.mainSections }}
+    {{ $notHidden := where .Site.RegularPages "Params.hidden" "!=" true }}
+    {{ $filtered := ($pages | intersect $notHidden) }}
+    {{ $pag := .Paginate ($filtered) }}
+
+    <div class="welcome">
+        <p style="font-size: 2rem; text-align: center; font-weight: bold">
+          <span class="shake">👋</span>
+          <span class="jump-text1" > Welcome</span>
+          <span class="jump-text2"> To </span>
+          <span class="jump-text9" style="color:#e99312">LAB530</span>
+        </p>
+    </div>
+    <section class="article-list">
+        {{ range $index, $element := $pag.Pages }}
+            {{ partial "article-list/default" . }}
+        {{ end }}
+    </section>
+
+    {{- partial "pagination.html" . -}}
+    {{- partial "footer/footer" . -}}
+{{ end }}
+
+{{ define "right-sidebar" }}
+    {{ partial "sidebar/right.html" (dict "Context" . "Scope" "homepage") }}
+{{ end }}
