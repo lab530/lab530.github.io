@@ -3,9 +3,13 @@ public
 resources
 .hugo_build.lock
 
-# hugo execuables
+# hugo executables
 hugo.exe
 hugo
 
 # tmp files
 *~
+
+# macOS cache
+.DS_Store
+
