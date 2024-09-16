@@ -1,6 +1,7 @@
 +++
 title = '2022 10 11 CodingStyle'
 date = 2024-09-09T23:49:57+08:00
+weight=5
 draft = true
 
 categories = [
