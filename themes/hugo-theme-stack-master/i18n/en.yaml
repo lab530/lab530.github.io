@@ -54,6 +54,9 @@ widget:
     categoriesCloud:
         title:
             other: Categories
+    search:
+        title:
+            other: Search
 
 search:
     title:
