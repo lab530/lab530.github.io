@@ -14,7 +14,7 @@
         fetch(apiUrl)
             .then(response => {
                 if (!response.ok) {
-                    throw new Error('Network response was not ok ' + response.statusText);
+                    throw new Error('网络响应错误: ' + response.statusText);
                 }
                 return response.json();
             })
@@ -26,7 +26,7 @@
                 const gallery = document.querySelector('.gallery-photos');
                 images.forEach(image => {
                     const imgHtml = `
-            <div class="gallery-item">
+            <div class="gallery-photo">
               <img class="photo-img" loading='lazy' decoding="async" src="${image.download_url}" alt="${image.name}" />
               <span class="photo-title">${image.name.replace(/^[0-9 -]+(.*)[.].*/, '$1')}</span>
               <span class="photo-time">${image.name.replace(/^([0-9-]+).*[.].*/, '$1')}</span>
@@ -36,80 +36,82 @@
                 });
 
                 // 显示所有图片
-                const galleryPhotos = document.querySelectorAll('.gallery-item');
+                const galleryPhotos = document.querySelectorAll('.gallery-photo');
                 galleryPhotos.forEach(photo => {
                     photo.style.visibility = 'visible';
                 });
             })
-            .catch(error => console.error('Error fetching images:', error));
+            .catch(error => console.error('获取图片时出错:', error));
     </script>
 </div>
 
-<div id="myModal" class="modal">
-    <span class="close">&times;</span>
-    <img class="modal-content" id="modalImg">
-</div>
-
 <style>
-    body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 20px;
-        background-color: #f9f9f9;
-    }
-    h1 {
-        text-align: center;
-    }
     .gallery-photos {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-        grid-auto-rows: 200px;
-        grid-gap: 20px;
+        display: flex;
+        flex-wrap: wrap;
         justify-content: center;
+        gap: 16px;
+        /* 图片之间的间距 */
+        width: 100%;
+        max-width: 100vw; /* 不限制宽度 */
     }
-    .gallery-item {
+
+    .gallery-photo {
         position: relative;
-        width: 100%;
-        height: 100%;
         overflow: hidden;
-        border: 2px solid #ddd;
-        border-radius: 8px;
-        cursor: pointer;
+        flex: 0 1 auto; /* 允许自适应宽度 */
+        max-width: 250px; /* 限制最大宽度 */
+        transition: transform 0.3s ease;
     }
-    .gallery-item img {
+
+    .gallery-photo img {
         width: 100%;
-        height: 100%;
-        object-fit: contain;
-        transition: transform 0.2s;
+        height: auto;
+        /* 根据宽度自动调整高度 */
+        border-radius: 20px;
+        cursor: pointer;
+        transition: all 0.4s ease-in-out;
     }
-    .gallery-item:hover img {
+
+    .gallery-photo:hover img {
         transform: scale(1.05);
+        /* 轻微缩放效果 */
     }
-    .modal {
-        display: none;
-        position: fixed;
-        z-index: 1;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        overflow: auto;
-        background-color: rgba(0, 0, 0, 0.9);
-    }
-    .modal-content {
-        display: block;
-        margin: auto;
-        max-width: 90%;
-        max-height: 90%;
-    }
-    .close {
+
+    .gallery-photo span.photo-title,
+    .gallery-photo span.photo-time {
+        background: rgba(0, 0, 0, 0.3);
+        padding: 0px 8px;
+        font-size: 0.9rem;
         color: #fff;
+        display: none;
+    }
+
+    .gallery-photo span.photo-title {
         position: absolute;
-        top: 15px;
-        right: 35px;
-        font-size: 40px;
-        font-weight: bold;
-        cursor: pointer;
+        bottom: 4px;
+        left: 4px;
+        border-radius: 10px;
+        background-color: #a3dfff;
+        color: #000000;
+        font-size: 1.2rem;
+    }
+
+    .gallery-photo span.photo-time {
+        position: absolute;
+        top: 4px;
+        left: 4px;
+        font-size: 0.8rem;
+    }
+
+    .gallery-photo:hover span.photo-title {
+        display: block;
+    }
+
+    @media (max-width: 883px) {
+        .photo-time {
+            display: none;
+        }
     }
 </style>
 
@@ -120,34 +122,12 @@
         imgStatus.watch('.photo-img', function (imgs) {
             if (imgs.isDone()) {
                 waterfall('.gallery-photos');
-                let pagePhoto = document.querySelectorAll('.gallery-item');
+                let pagePhoto = document.querySelectorAll('.gallery-photo');
                 for (var i = 0; i < pagePhoto.length; i++) { pagePhoto[i].className += " visible" };
             }
         });
         window.addEventListener('resize', function () {
             waterfall('.gallery-photos');
-        });
-
-        // 图片放大
-        const modal = document.getElementById('myModal');
-        const modalImg = document.getElementById('modalImg');
-        const closeBtn = document.getElementsByClassName('close')[0];
-
-        document.querySelectorAll('.gallery-item').forEach(item => {
-            item.addEventListener('click', () => {
-                modalImg.src = item.querySelector('.photo-img').src;
-                modal.style.display = 'block';
-            });
-        });
-
-        closeBtn.addEventListener('click', () => {
-            modal.style.display = 'none';
-        });
-
-        window.addEventListener('click', (event) => {
-            if (event.target == modal) {
-                modal.style.display = 'none';
-            }
         });
     });
 </script>
@@ -155,6 +135,6 @@
 <script src="https://immmmm.com/lately.min.js"></script>
 <script>
     window.Lately && Lately.init({ target: '.photo-time' });
-    window.ViewImage && ViewImage.init('.gallery-item img')
+    window.ViewImage && ViewImage.init('.gallery-photo img')
 </script>
 {{ end }}

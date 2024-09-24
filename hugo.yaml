@@ -257,5 +257,7 @@ markup:
         guessSyntax: true
         lineNoStart: 1
         lineNos: true
-        lineNumbersInTable: true
+        lineNumbersInTable: False
         tabWidth: 4
+
+        
