@@ -1,24 +1,14 @@
 +++
-title = '2022 10 11 CodingStyle'
+title = '让你写出一份漂亮的代码'
 date = 2024-09-09T23:49:57+08:00
-weight=5
-author='敖德萨计划'
+weight=1
 
 categories = [
-    "Test"
+    "代码入门"
 ]
 
 
 +++
-
-**作者**
-
-<div style="text-align: center;">
-    <img src="https://cdn.jsdelivr.net/gh/Ahaitang/PicGo@master/Images/ACM.jpg" alt="Yestercafe" style="zoom: 10%;" /></div>
- <div style="text-align: center;">
-     <strong>Yestercafe</strong>
- </div>
-
 
 **评价一份代码的好坏有许多标准，但无论如何都不仅是能够编译通过，本文旨在给出一份基础的代码风格推荐。**
 
@@ -139,17 +129,17 @@ pointer++;
 // 不要这样
 * poniter = 1;
 pointer ++;
-```
+```  
 
 - 指针  
-
+  
 ```c
 // 声明指针时应当将 * 运算符与变量类型放在一起
 int* pointer;
 ```
 
 - 数组下标 `[]` 与圆括号 `()` 内不需要加空格：
-
+  
 ```c
 // 请这样
 arr[10] = 1;
@@ -188,7 +178,7 @@ swap(a, b);
 // 不要这样
 int apples,appleTrees;
 swap(a,b);
-```
+```  
 
 ### 判断与循环
 
@@ -197,40 +187,40 @@ swap(a,b);
   `if ()` 语句所形成的代码块会很大程度上影响代码的风格，因此请务必按照建议格式进行书写。
 
   ```c
-// 请这样
-// 'if' 与 '()' 空一格
-if (a > 0) 
-{                     // '{}' 单独占一行，与 'if' 对齐
-  printf("%d", a);    // 代码块内容缩进一个 tab
-}
-else if (a < 0)       // 'else' 与 'else if' 另起一行
-{
-  printf("%d", -a)
-}
-else
-{
-  printf("a is zero.");
-}  
-  ```
+  // 请这样
+  // 'if' 与 '()' 空一格
+  if (a > 0) 
+  {                     // '{}' 单独占一行，与 'if' 对齐
+    printf("%d", a);    // 代码块内容缩进一个 tab
+  }
+  else if (a < 0)       // 'else' 与 'else if' 另起一行
+  {
+    printf("%d", -a)
+  }
+  else
+  {
+    printf("a is zero.");
+  }  
+  ```  
 
   `if ()` 语句嵌套：
 
   ```c
-/** 
- * 嵌套部分遵循「代码块内容缩进一个 tab」的规则 
- * 在此基础上进一步缩进，保证 `{}` 整齐成对出现
- */
-if (a > 0)
-{
-  if (b > 0)
+  /** 
+   * 嵌套部分遵循「代码块内容缩进一个 tab」的规则 
+   * 在此基础上进一步缩进，保证 `{}` 整齐成对出现
+   */
+  if (a > 0)
   {
-    printf("balabala");
+    if (b > 0)
+    {
+      printf("balabala");
+    }
+    else
+    {
+      printf("balabalabala");
+    }
   }
-  else
-  {
-    printf("balabalabala");
-  }
-}
   ```
 
 #### 循环
@@ -283,5 +273,4 @@ while (a < 10)
     break;
   }
 }
-```
-
+```  
