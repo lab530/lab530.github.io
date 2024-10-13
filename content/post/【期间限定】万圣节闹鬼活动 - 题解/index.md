@@ -103,7 +103,7 @@ for x in range(im1.size[0]):
 im2.save('output.png')
 ```
 
-![dog](/assets/images/posts/2022-halloween/output.png)
+![dog](/images/posts/2022-halloween/output.png)
 
 这个图里面隐藏了 <https://lab530.github.io> 的页面（左上和左下是侧边栏和搜索的图标，左上偏中间是 LAB530 的 LOGO，你要是熟悉那就很容易知道这是我们的 GitHub Page，只不过我故意做了万圣节装修），另外就是在假文中的右下角藏了一个 SOMETHING HERE —— 这些线索代表这个东西藏在 GitHub Page 的右下角。
 
@@ -125,11 +125,11 @@ im2.save('output.png')
 
 第一处是真密码，藏在 hint 中。通过查看源码，发现是真密码的透明度设置成了 0:
 
-![ss1](/assets/images/posts/2022-halloween/ss1.png)
+![ss1](/images/posts/2022-halloween/ss1.png)
 
 第二处是真链接，藏在 sekinya.html 中。同样是看源码，发现注释了一个超链接：
 
-![ss2](/assets/images/posts/2022-halloween/ss2.png)
+![ss2](/images/posts/2022-halloween/ss2.png)
 
 结合 `gold-room-PASSWORD` 的样子，猜测链接是 `return-613`。
 
