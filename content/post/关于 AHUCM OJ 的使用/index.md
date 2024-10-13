@@ -1,4 +1,5 @@
 +++
+slug = 'use AHUCM OJ'
 title = '关于 AHUCM OJ 的使用'
 date = 2024-09-09T23:49:57+08:00
 weight=1
