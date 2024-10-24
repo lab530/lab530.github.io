@@ -1,4 +1,5 @@
 +++
+slug = "Experiment report two, three and four"
 title = '实验报告二、三、四'
 date = 2024-09-09T23:49:57+08:00
 weight=7

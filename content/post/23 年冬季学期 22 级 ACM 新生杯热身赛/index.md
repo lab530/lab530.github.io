@@ -1,4 +1,5 @@
 +++
+slug = "23-acm-new-year-contest-warmup"
 title = '23 年冬季学期 22 级 ACM 新生杯热身赛'
 date = 2024-09-09T23:49:57+08:00
 weight=6

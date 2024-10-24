@@ -1,4 +1,5 @@
 +++
+slug = "Dev-Cpp installation and use (nanny level tutorial!!)"
 title = 'Dev-Cpp安装及使用（保姆级教程！！！）'
 date = 2024-09-09T23:49:57+08:00
 weight=3

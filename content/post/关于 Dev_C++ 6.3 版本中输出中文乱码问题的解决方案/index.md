@@ -1,4 +1,5 @@
 +++
+slug = "Dev_C++6.3 output Chinese garbled code solution"
 title = '关于 Dev_C++ 6.3 版本中输出中文乱码问题的解决方案'
 date = 2024-09-09T23:49:57+08:00
 weight=3

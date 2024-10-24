@@ -1,4 +1,5 @@
 +++
+slug = "VScode-C-C++-environment"
 title = 'VScode 中配置 C/C++ 环境'
 date = 2024-09-09T23:49:57+08:00
 weight=3

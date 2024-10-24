@@ -1,4 +1,5 @@
 +++
+slug = "2022 Next school year Week 1 Week Competition - C++ solution"
 title = '2022 年下学年第 1 周周赛 - C++ 题解'
 date = 2024-09-09T23:49:57+08:00
 weight=6

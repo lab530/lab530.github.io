@@ -1,4 +1,5 @@
 +++
+slug = "PicGo configuration tutorial and blog image upload specifications"
 title = 'PicGo 配置教程及博客图片上传规范'
 date = 2024-09-09T23:49:57+08:00
 weight=5

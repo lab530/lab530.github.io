@@ -1,4 +1,5 @@
 +++
+slug = "2022-newround2-solution"
 title = '2022 NewRound2 题解'
 date = 2024-09-09T23:49:57+08:00
 weight=6

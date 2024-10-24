@@ -1,4 +1,5 @@
 +++
+slug = "How to Work with Us -lab530.github.io Development Manual"
 title = 'How to Work with Us - lab530.github.io 开发手册'
 date = 2024-09-09T23:49:57+08:00
 weight=6

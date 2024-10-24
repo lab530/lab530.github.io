@@ -1,4 +1,5 @@
 +++
+slug = "2023-new-year-cup-1st-round"
 title = '2023 年新生杯（第一届鸭鸭杯）题解'
 date = 2024-09-09T23:49:57+08:00
 weight=6

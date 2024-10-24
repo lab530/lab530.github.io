@@ -1,4 +1,5 @@
 +++
+slug = "Guide to Chinese Copywriting and Typesetting (Simplified Chinese Version)"
 title = '中文文案排版指北（简体中文版）'
 date = 2024-09-09T23:49:57+08:00
 weight=2

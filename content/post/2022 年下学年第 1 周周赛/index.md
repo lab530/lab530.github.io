@@ -1,4 +1,5 @@
 +++
+slug = "Week 1 of the next school year 2022"
 title = '2022 年下学年第 1 周周赛'
 date = 2024-09-09T23:49:57+08:00
 weight=6

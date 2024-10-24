@@ -1,4 +1,5 @@
 +++
+slug = "2023 Anhui University of Chinese Medicine ACM intramural selection competition solution"
 title = '2023 年度安徽中医药大学 ACM 校内选拔赛题解'
 date = 2024-09-09T23:49:57+08:00
 weight=6

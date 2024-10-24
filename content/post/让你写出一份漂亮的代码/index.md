@@ -1,4 +1,5 @@
 +++
+slug = "Let you write a beautiful code"
 title = '让你写出一份漂亮的代码'
 date = 2024-09-09T23:49:57+08:00
 weight=1
