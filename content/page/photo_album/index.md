@@ -1,7 +1,7 @@
 ---
 title: "相册"
-layout: "photos"
-slug: "photos"
+layout: "photos1"
+slug: "photos1"
 menu: 
     main:
         weight: -70

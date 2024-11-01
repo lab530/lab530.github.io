@@ -11,37 +11,58 @@
         const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
 
         // 获取图片列表
-        fetch(apiUrl)
-            .then(response => {
+        async function fetchImages() {
+            try {
+                const response = await fetch(apiUrl);
                 if (!response.ok) {
                     throw new Error('网络响应错误: ' + response.statusText);
                 }
-                return response.json();
-            })
-            .then(data => {
-                // 过滤出图片文件
-                const images = data.filter(file => /\.(gif|jpg|jpeg|tiff|png|bmp|webp|avif|jxl)$/i.test(file.name));
+                const data = await response.json();
+                return data.filter(file => /\.(gif|jpg|jpeg|tiff|png|bmp|webp|avif|jxl)$/i.test(file.name));
+            } catch (error) {
+                console.error('获取图片时出错:', error);
+                return [];
+            }
+        }
 
-                // 生成图片HTML
-                const gallery = document.querySelector('.gallery-photos');
-                images.forEach(image => {
-                    const imgHtml = `
+        // 生成图片HTML
+        function renderImages(images) {
+            const gallery = document.querySelector('.gallery-photos');
+            images.forEach(image => {
+                const imgHtml = `
             <div class="gallery-photo">
-              <img class="photo-img" loading='lazy' decoding="async" src="${image.download_url}" alt="${image.name}" />
-              <span class="photo-title">${image.name.replace(/^[0-9 -]+(.*)[.].*/, '$1')}</span>
-              <span class="photo-time">${image.name.replace(/^([0-9-]+).*[.].*/, '$1')}</span>
+                <img class="photo-img lazy" data-src="${image.download_url}" alt="${image.name}" />
             </div>
-          `;
-                    gallery.insertAdjacentHTML('beforeend', imgHtml);
-                });
+        `;
+                gallery.insertAdjacentHTML('beforeend', imgHtml);
+            });
 
-                // 显示所有图片
-                const galleryPhotos = document.querySelectorAll('.gallery-photo');
-                galleryPhotos.forEach(photo => {
-                    photo.style.visibility = 'visible';
+            // 初始化懒加载
+            lazyLoadImages();
+        }
+
+        // 懒加载功能
+        function lazyLoadImages() {
+            const lazyImages = document.querySelectorAll('.lazy');
+
+            const imageObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        img.src = img.dataset.src; // 设置实际的图片源
+                        img.classList.remove('lazy');
+                        observer.unobserve(img); // 不再观察该图片
+                    }
                 });
-            })
-            .catch(error => console.error('获取图片时出错:', error));
+            });
+
+            lazyImages.forEach(image => {
+                imageObserver.observe(image);
+            });
+        }
+
+        // 主函数
+        fetchImages().then(renderImages);
     </script>
 </div>
 
@@ -49,69 +70,47 @@
     .gallery-photos {
         display: flex;
         flex-wrap: wrap;
-        justify-content: center;
-        gap: 16px;
-        /* 图片之间的间距 */
-        width: 100%;
-        max-width: 100vw; /* 不限制宽度 */
+        /* 允许换行 */
+        justify-content: space-around;
+        /* 水平间距 */
+        margin: -10px;
+        /* 负边距用于抵消子元素的外边距 */
     }
 
     .gallery-photo {
-        position: relative;
+        margin: 10px;
+        /* 每个图片的外边距 */
+        flex: 0 1 calc(25% - 20px);
+        /* 每个图片占据的宽度，减去外边距 */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        /* 添加阴影效果 */
+        border-radius: 5px;
+        /* 圆角效果 */
         overflow: hidden;
-        flex: 0 1 auto; /* 允许自适应宽度 */
-        max-width: 250px; /* 限制最大宽度 */
-        transition: transform 0.3s ease;
+        /* 防止溢出 */
+        text-align: center;
+        /* 居中对齐 */
     }
 
     .gallery-photo img {
         width: 100%;
-        height: auto;
-        /* 根据宽度自动调整高度 */
-        border-radius: 20px;
-        cursor: pointer;
-        transition: all 0.4s ease-in-out;
+        height: 100%;
+        /* 可以设置为100%以填满容器 */
+        object-fit: cover;
+        /* 或者使用contain，具体根据需求选择 */
+        border-radius: 5px 5px 0 0;
     }
 
-    .gallery-photo:hover img {
-        transform: scale(1.05);
-        /* 轻微缩放效果 */
-    }
-
-    .gallery-photo span.photo-title,
-    .gallery-photo span.photo-time {
-        background: rgba(0, 0, 0, 0.3);
-        padding: 0px 8px;
-        font-size: 0.9rem;
-        color: #fff;
-        display: none;
-    }
-
-    .gallery-photo span.photo-title {
-        position: absolute;
-        bottom: 4px;
-        left: 4px;
-        border-radius: 10px;
-        background-color: #a3dfff;
-        color: #000000;
-        font-size: 1.2rem;
-    }
-
-    .gallery-photo span.photo-time {
-        position: absolute;
-        top: 4px;
-        left: 4px;
-        font-size: 0.8rem;
-    }
-
-    .gallery-photo:hover span.photo-title {
+    .photo-title,
+    .photo-time {
         display: block;
-    }
-
-    @media (max-width: 883px) {
-        .photo-time {
-            display: none;
-        }
+        /* 使标题和时间在新行显示 */
+        margin: 5px 0;
+        /* 上下间距 */
+        font-size: 14px;
+        /* 字体大小 */
+        color: #333;
+        /* 字体颜色 */
     }
 </style>
 
@@ -122,11 +121,12 @@
         imgStatus.watch('.photo-img', function (imgs) {
             if (imgs.isDone()) {
                 waterfall('.gallery-photos');
-                let pagePhoto = document.querySelectorAll('.gallery-photo');
-                for (var i = 0; i < pagePhoto.length; i++) { pagePhoto[i].className += " visible" };
+                document.querySelectorAll('.gallery-photo').forEach(photo => {
+                    photo.classList.add("visible");
+                });
             }
         });
-        window.addEventListener('resize', function () {
+        window.addEventListener('resize', () => {
             waterfall('.gallery-photos');
         });
     });
@@ -135,6 +135,6 @@
 <script src="https://immmmm.com/lately.min.js"></script>
 <script>
     window.Lately && Lately.init({ target: '.photo-time' });
-    window.ViewImage && ViewImage.init('.gallery-photo img')
+    window.ViewImage && ViewImage.init('.gallery-photo img');
 </script>
 {{ end }}
